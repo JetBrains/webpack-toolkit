@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/kisenka/webpack-toolkit#readme",
   "dependencies": {
-    "bluebird": "^3.4.6",
+    "bluebird": "^3.4.0",
     "loader-utils": "^0.2.15"
   },
   "devDependencies": {
