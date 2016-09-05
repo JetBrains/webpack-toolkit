@@ -1,6 +1,6 @@
 {
   "name": "webpack-toolkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A set of utils to make Webpack extensions development easier",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/kisenka/webpack-toolkit#readme",
   "dependencies": {
     "bluebird": "^3.4.0",
-    "loader-utils": "^0.2.15"
+    "loader-utils": "^0.2.10"
   },
   "devDependencies": {
     "chai": "^3.5.0",
