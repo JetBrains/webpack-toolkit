@@ -19,7 +19,7 @@
   "homepage": "https://github.com/kisenka/webpack-toolkit#readme",
   "dependencies": {
     "bluebird": "^3.4.0",
-    "loader-utils": "^0.2.15",
+    "loader-utils": "^0.2.10",
     "object-assign": "^4.1.0",
     "webpack-merge": "^0.14.1"
   },
