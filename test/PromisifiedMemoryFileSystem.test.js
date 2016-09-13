@@ -80,16 +80,15 @@ describe('PromisifiedMemoryFileSystem', () => {
     });
 
     describe('stat()', () => {
-      it('should resolve with proper stat object', (done) => {
+      it('should resolve with proper stat object', () => {
         var fs = FS({qwe: new Buffer(123)});
-        fs.stat('/qwe').then(stats => {
+        return fs.stat('/qwe').then(stats => {
           statObjectMethods.forEach(method => {
             stats.should.have.property(method);
             stats[method].should.be.a('function');
             stats[method]().should.be.a('boolean');
           });
-          done();
-        }).catch(done);
+        });
       });
     });
 
