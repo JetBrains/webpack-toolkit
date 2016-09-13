@@ -1,4 +1,4 @@
-var OriginFS = require('memory-fs');
+var MemoryFS = require('memory-fs');
 var FS = require('../lib/PromisifiedMemoryFileSystem');
 var Promise = require('bluebird');
 
@@ -40,12 +40,16 @@ describe('PromisifiedMemoryFileSystem', () => {
       FS().should.be.instanceOf(FS);
     });
 
+    it('should assign properties', () => {
+      FS().should.have.property('fs').that.an.instanceOf(MemoryFS);
+    });
+
     it('should create memory-fs instance if no arguments passed', () => {
-      FS().fs.should.exist.and.be.instanceOf(OriginFS);
+      FS().fs.should.exist.and.be.instanceOf(MemoryFS);
     });
 
     it('should allow to pass memory-fs instance', () => {
-      var fs = new OriginFS();
+      var fs = new MemoryFS();
       FS(fs).fs.should.be.equal(fs);
     });
 

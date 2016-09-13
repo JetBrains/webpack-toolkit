@@ -4,7 +4,7 @@ var NodeJSInputFileSystem = require('enhanced-resolve/lib/NodeJSInputFileSystem'
 var CachedInputFileSystem = require('enhanced-resolve/lib/CachedInputFileSystem');
 var NodeOutputFileSystem = require('webpack/lib/node/NodeOutputFileSystem');
 var Compilation = require('webpack/lib/Compilation');
-var PromisifiedMemoryFS = require('../lib/PromisifiedMemoryFileSystem');
+var WebpackCompiler = require('webpack/lib/Compiler');
 
 var Compiler = require('../lib/InMemoryCompiler');
 
@@ -19,6 +19,10 @@ describe('InMemoryCompiler', () => {
   describe('constructor()', () => {
     it('should create instance via function call', () => {
       Compiler().should.be.instanceOf(Compiler);
+    });
+
+    it('should assign properties', () => {
+      Compiler().should.have.property('_compiler').that.is.instanceOf(WebpackCompiler);
     });
     
     it('should use memory-fs as input & output filesystem by default', () => {
