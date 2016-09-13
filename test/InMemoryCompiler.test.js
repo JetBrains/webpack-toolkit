@@ -54,9 +54,9 @@ describe('InMemoryCompiler', () => {
   
   describe('run()', () => {
     it('should return a Promise', () => {
-      var promise = Compiler().run();
-      promise.then.should.exist.and.be.a('function');
-      return promise;
+      return Compiler().run()
+        .should.be.fulfilled
+        .and.have.a.property('then').that.is.a('function');
     });
 
     it('should reject if something wrong', () => {
