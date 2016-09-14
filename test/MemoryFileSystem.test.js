@@ -1,5 +1,5 @@
 var MemoryFS = require('memory-fs');
-var FS = require('../lib/PromisifiedMemoryFileSystem');
+var FS = require('../lib/MemoryFileSystem');
 var Promise = require('bluebird');
 
 var promisifiedMethods = [
