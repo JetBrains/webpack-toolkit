@@ -22,14 +22,12 @@ describe('ChildCompiler', () => {
       var compilation = createCompilation();
       var _compiler = Compiler(compilation)._compiler;
       _compiler.name.should.equal(Compiler.defaultName);
-      _compiler.context.should.equal(compilation.options.context);
       _compiler.options.output.should.eql(compilation.outputOptions);
     });
 
     it('should use passed options', () => {
       var options = {
         name: 'qwe',
-        context: '/',
         output: {
           filename: 'qwe.js'
         }
@@ -39,7 +37,6 @@ describe('ChildCompiler', () => {
       var _compiler = Compiler(compilation, options)._compiler;
 
       _compiler.name.should.equal(options.name);
-      _compiler.context.should.equal(options.context);
 
       Object.keys(options.output).forEach(key => {
         var val = options.output[key];
