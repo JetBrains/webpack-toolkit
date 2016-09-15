@@ -1,32 +1,29 @@
+var utils = require('./utils');
 var MemoryFS = require('memory-fs');
 var Promise = require('bluebird');
-var NodeJSInputFileSystem = require('enhanced-resolve/lib/NodeJSInputFileSystem');
 var CachedInputFileSystem = require('enhanced-resolve/lib/CachedInputFileSystem');
 var NodeOutputFileSystem = require('webpack/lib/node/NodeOutputFileSystem');
 var Compilation = require('webpack/lib/Compilation');
 var WebpackCompiler = require('webpack/lib/Compiler');
-
-var Compiler = require('../lib/InMemoryCompiler');
-
-var fsStorageDuration = 60000;
+var InMemoryCompiler = require('../lib/InMemoryCompiler');
 
 describe('InMemoryCompiler', () => {
   it('should export static fields', () => {
-    Compiler.defaultConfig.should.exist;
-    Compiler.defaultWebpackConfig.should.exist;
+    InMemoryCompiler.defaultConfig.should.exist;
+    InMemoryCompiler.defaultWebpackConfig.should.exist;
   });
 
   describe('constructor()', () => {
     it('should create instance via function call', () => {
-      Compiler().should.be.instanceOf(Compiler);
+      InMemoryCompiler().should.be.instanceOf(InMemoryCompiler);
     });
 
     it('should assign properties', () => {
-      Compiler().should.have.property('_compiler').that.is.instanceOf(WebpackCompiler);
+      InMemoryCompiler().should.have.property('_compiler').that.is.instanceOf(WebpackCompiler);
     });
     
     it('should use memory-fs as input & output filesystem by default', () => {
-      var _compiler = Compiler()._compiler;
+      var _compiler = InMemoryCompiler()._compiler;
       _compiler.inputFileSystem.should.be.instanceOf(MemoryFS);
       _compiler.resolvers.normal.fileSystem.should.be.instanceOf(MemoryFS);
       _compiler.resolvers.context.fileSystem.should.be.instanceOf(MemoryFS);
@@ -34,8 +31,8 @@ describe('InMemoryCompiler', () => {
     });
 
     it('should allow to pass custom input filesystem', () => {
-      var inputFS = new CachedInputFileSystem(new NodeJSInputFileSystem, fsStorageDuration);
-      var _compiler = Compiler(null, {inputFS: inputFS})._compiler;
+      var inputFS = utils.createCachedInputFileSystem();
+      var _compiler = InMemoryCompiler(null, {inputFS: inputFS})._compiler;
       _compiler.inputFileSystem.should.be.instanceOf(CachedInputFileSystem);
       _compiler.resolvers.normal.fileSystem.should.be.instanceOf(CachedInputFileSystem);
       _compiler.resolvers.context.fileSystem.should.be.instanceOf(CachedInputFileSystem);
@@ -43,14 +40,14 @@ describe('InMemoryCompiler', () => {
 
     it('should allow to pass custom input filesystem', () => {
       var outputFS = new NodeOutputFileSystem();
-      var _compiler = Compiler(null, {outputFS: outputFS})._compiler;
+      var _compiler = InMemoryCompiler(null, {outputFS: outputFS})._compiler;
       _compiler.outputFileSystem.should.be.instanceOf(NodeOutputFileSystem);
     });
 
     it('should use `defaultWebpackConfig` as default Webpack config', () => {
-      var _compiler = Compiler()._compiler;
-      Object.keys(Compiler.defaultWebpackConfig).forEach(key => {
-        var defaultCfgValue = Compiler.defaultWebpackConfig[key];
+      var _compiler = InMemoryCompiler()._compiler;
+      Object.keys(InMemoryCompiler.defaultWebpackConfig).forEach(key => {
+        var defaultCfgValue = InMemoryCompiler.defaultWebpackConfig[key];
         _compiler.options[key].should.be.equal(defaultCfgValue);
       });
     });
@@ -58,17 +55,17 @@ describe('InMemoryCompiler', () => {
   
   describe('run()', () => {
     it('should return a Promise', () => {
-      return Compiler().run()
+      return InMemoryCompiler().run()
         .should.be.fulfilled
         .and.have.a.property('then').that.is.a('function');
     });
 
     it('should reject if something wrong', () => {
-      return Compiler({entry: 'qwe'}).run().should.be.rejected;
+      return InMemoryCompiler({entry: 'qwe'}).run().should.be.rejected;
     });
 
     it('should resolve with compilation object', () => {
-      return Compiler().run().should.eventually.be.instanceOf(Compilation);
+      return InMemoryCompiler().run().should.eventually.be.instanceOf(Compilation);
     });
   });
 
@@ -76,7 +73,7 @@ describe('InMemoryCompiler', () => {
     it('should add entries', () => {
       var entryName = 'qwe';
       var fs = new MemoryFS({'entry.js': new Buffer('')});
-      var compiler = new Compiler({
+      var compiler = new InMemoryCompiler({
         context: '/',
         output: {
           filename: '[name]'

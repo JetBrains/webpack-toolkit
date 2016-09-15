@@ -3,6 +3,8 @@ var Compilation = require('webpack/lib/Compilation');
 var WebpackOptionsDefaulter = require("webpack/lib/WebpackOptionsDefaulter");
 var WebpackOptionsApply = require('webpack/lib/WebpackOptionsApply');
 var NodeEnvironmentPlugin = require("webpack/lib/node/NodeEnvironmentPlugin");
+var NodeJSInputFileSystem = require('enhanced-resolve/lib/NodeJSInputFileSystem');
+var CachedInputFileSystem = require('enhanced-resolve/lib/CachedInputFileSystem');
 var extend = require('object-assign');
 
 var defaultOptions = {
@@ -31,8 +33,6 @@ function createCompiler(opts) {
   return compiler;
 }
 
-exports.createCompiler = createCompiler;
-
 /**
  * @param {WebpackConfig} [opts]
  * @returns {Compilation}
@@ -41,4 +41,10 @@ function createCompilation(opts) {
   return new Compilation(createCompiler(opts));
 }
 
+function createCachedInputFileSystem() {
+  return new CachedInputFileSystem(new NodeJSInputFileSystem, 60000);
+}
+
+exports.createCompiler = createCompiler;
 exports.createCompilation = createCompilation;
+exports.createCachedInputFileSystem = createCachedInputFileSystem;
