@@ -1,4 +1,5 @@
 var matcher = require('../lib/matcher');
+var extend = require('object-assign');
 
 describe('matcher()', () => {
   it('should work', () => {
@@ -18,5 +19,22 @@ describe('matcher()', () => {
 
   it('should work as filtering function if subject is array', () => {
     matcher(/\.txt$/, ['file.js', 'file.css', 'file.txt']).should.be.eql(['file.txt']);
+  });
+
+  it('should not modify input data', () => {
+    var expectedCriteria = {
+      test: /\.txt$/,
+      include: false,
+      exclude: 'qwe'
+    };
+    var expectedInput = ['path', 'path/a/b'];
+
+    var criteria = extend({}, expectedCriteria);
+    var input = [].concat(expectedInput);
+
+    matcher(criteria, expectedInput);
+
+    criteria.should.be.eql(expectedCriteria);
+    input.should.be.eql(expectedInput);
   });
 });
