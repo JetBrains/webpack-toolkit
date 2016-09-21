@@ -4,6 +4,7 @@ exports.compileVMScript = require('./lib/compileVMScript');
 exports.emitAsset = require('./lib/emitAsset');
 exports.getAffectedFiles = require('./lib/getAffectedFiles');
 exports.getAssetsByChunkName = require('./lib/getAssetsByChunkName');
+exports.getModuleOriginalSource = require('./lib/getModuleOriginalSource');
 exports.InMemoryCompiler = require('./lib/InMemoryCompiler');
 exports.interpolateName = require('./lib/interpolateName');
 exports.matcher = require('./lib/matcher');
