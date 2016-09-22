@@ -1,6 +1,9 @@
 exports.addEntry = require('./lib/addEntry');
 exports.ChildCompiler = require('./lib/ChildCompiler');
 exports.compileVMScript = require('./lib/compileVMScript');
+exports.createCachedInputFileSystem = require('./lib/createCachedInputFileSystem');
+exports.createCompilation = require('./lib/createCompilation');
+exports.createCompiler = require('./lib/createCompiler');
 exports.emitAsset = require('./lib/emitAsset');
 exports.getAffectedFiles = require('./lib/getAffectedFiles');
 exports.getAssetsByChunkName = require('./lib/getAssetsByChunkName');

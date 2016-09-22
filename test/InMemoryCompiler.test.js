@@ -1,4 +1,3 @@
-var utils = require('./utils');
 var MemoryFS = require('memory-fs');
 var Promise = require('bluebird');
 var CachedInputFileSystem = require('enhanced-resolve/lib/CachedInputFileSystem');
@@ -6,6 +5,7 @@ var NodeOutputFileSystem = require('webpack/lib/node/NodeOutputFileSystem');
 var Compilation = require('webpack/lib/Compilation');
 var WebpackCompiler = require('webpack/lib/Compiler');
 var InMemoryCompiler = require('../lib/InMemoryCompiler');
+var createCachedInputFileSystem = require('../lib/createCachedInputFileSystem');
 
 describe('InMemoryCompiler', () => {
   it('should export static fields', () => {
@@ -31,7 +31,7 @@ describe('InMemoryCompiler', () => {
     });
 
     it('should allow to pass custom input filesystem', () => {
-      var inputFS = utils.createCachedInputFileSystem();
+      var inputFS = createCachedInputFileSystem();
       var _compiler = InMemoryCompiler(null, {inputFS: inputFS})._compiler;
       _compiler.inputFileSystem.should.be.instanceOf(CachedInputFileSystem);
       _compiler.resolvers.normal.fileSystem.should.be.instanceOf(CachedInputFileSystem);
