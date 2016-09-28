@@ -1,6 +1,4 @@
-var utils = require('./utils');
 var Compilation =  require('webpack/lib/Compilation');
-
 var createCompilation = require('../lib/createCompilation');
 var Compiler = require('../lib/ChildCompiler');
 var InMemoryCompiler = require('../lib/InMemoryCompiler');
