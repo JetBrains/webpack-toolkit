@@ -7,6 +7,7 @@ exports.createCompiler = require('./lib/createCompiler');
 exports.emitAsset = require('./lib/emitAsset');
 exports.getAffectedFiles = require('./lib/getAffectedFiles');
 exports.getAssetsByChunkName = require('./lib/getAssetsByChunkName');
+exports.getMatchedLoaders = require('./lib/getMatchedLoaders');
 exports.getModuleByFilepath = require('./lib/getModuleByFilepath');
 exports.InMemoryCompiler = require('./lib/InMemoryCompiler');
 exports.interpolateName = require('./lib/interpolateName');
