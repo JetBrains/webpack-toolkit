@@ -34,7 +34,7 @@ var statObjectMethods = [
   'isSymbolicLink'
 ];
 
-describe('PromisifiedMemoryFileSystem', () => {
+describe('MemoryFileSystem', () => {
   describe('constructor', () => {
     it('should create instance via function call', () => {
       FS().should.be.instanceOf(FS);
@@ -129,6 +129,21 @@ describe('PromisifiedMemoryFileSystem', () => {
           promise.then(() => fs.readdir('/1/2')).should.become(['3']),
           promise.then(() => fs.readdir('/1/2/3')).should.become(['qwe'])
         ]);
+      });
+    });
+
+    describe('purge()', () => {
+      it('should delete all items', () => {
+        var fs = FS();
+        var promise = fs.writep('/1/2/3.txt');
+
+        promise.then(() => fs.purge());
+
+        return Promise.all([
+          promise.then(() => fs.exists('/1').should.become(false)),
+          promise.then(() => fs.exists('/1/2').should.become(false)),
+          promise.then(() => fs.exists('/1/2/3.txt').should.become(false))
+        ])
       });
     });
   });
