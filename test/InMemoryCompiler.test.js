@@ -9,8 +9,8 @@ var createCachedInputFileSystem = require('../lib/createCachedInputFileSystem');
 
 describe('InMemoryCompiler', () => {
   it('should export static fields', () => {
-    InMemoryCompiler.defaultConfig.should.exist;
-    InMemoryCompiler.defaultWebpackConfig.should.exist;
+    InMemoryCompiler.defaultConfig.should.exist.and.be.an('object');
+    InMemoryCompiler.defaultWebpackConfig.should.exist.and.be.an('object');
   });
 
   describe('constructor()', () => {
@@ -69,20 +69,37 @@ describe('InMemoryCompiler', () => {
     });
   });
 
-  describe('addEntry()', () => {
-    it('should add entries', () => {
-      var entryName = 'qwe';
-      var fs = new MemoryFS({'entry.js': new Buffer('')});
-      var compiler = new InMemoryCompiler({
-        context: '/',
-        output: {
-          filename: '[name]'
-        }
-      }, {inputFS: fs});
+  it('addEntry()', () => {
+    var entryName = 'qwe';
+    var fs = new MemoryFS({'entry.js': new Buffer('')});
+    var compiler = new InMemoryCompiler({
+      context: '/',
+      output: {
+        filename: '[name]'
+      }
+    }, {inputFS: fs});
 
-      compiler.addEntry('./entry', entryName);
+    compiler.addEntry('./entry', entryName).should.be.instanceOf(InMemoryCompiler);
+    return compiler.run().should.eventually.have.property('assets').with.property(entryName);
+  });
 
-      return compiler.run().should.eventually.have.property('assets').with.property(entryName);
-    });
+  it('setInputFS()', () => {
+    var compiler = InMemoryCompiler();
+    var fs = new MemoryFS();
+    var _compiler = compiler._compiler;
+
+    compiler.setInputFS(fs).should.be.equal(compiler);
+    _compiler.inputFileSystem.should.be.equal(fs);
+    _compiler.resolvers.normal.fileSystem.should.be.equal(fs);
+    _compiler.resolvers.context.fileSystem.should.be.equal(fs);
+  });
+
+  it('setOutputFS()', () => {
+    var compiler = InMemoryCompiler();
+    var fs = new MemoryFS();
+    var _compiler = compiler._compiler;
+
+    compiler.setOutputFS(fs).should.be.equal(compiler);
+    _compiler.outputFileSystem.should.be.equal(fs);
   });
 });
