@@ -1,5 +1,6 @@
 var path = require('path');
 var sinon = require('sinon');
+var expect = require('chai').expect;
 
 var TemplateCompiler = require('../../lib/TemplateCompiler');
 var ChildCompiler = require('../../lib/ChildCompiler');
@@ -58,11 +59,49 @@ describe('TemplateCompiler', () => {
   describe('run()', () => {
     var fixturesPath = path.resolve(__dirname, 'fixtures');
 
-    describe('Compatible with following template loaders', () => {
+    it('should return a function if `compileToFunction` is true (default)', () => {
+      var compilation = createCompilation({context: fixturesPath});
+      var compiler = TemplateCompiler(compilation, {template: './js/dummy'});
+      return expect(compiler.run()).eventually.to.be.a('function');
+    });
 
+    it('should return a string if `compileToFunction` is false', () => {
+      var compilation = createCompilation({context: fixturesPath});
+      var compiler = TemplateCompiler(compilation, {
+        template: './js/dummy',
+        compileToFunction: false
+      });
+      return expect(compiler.run()).eventually.to.be.a('string');
+    });
+
+    it('should not produce any assets in parent compilation', (done) => {
+      var compilation = createCompilation({
+        context: fixturesPath,
+        entry: './js/dummy',
+        output: {
+          filename: 'parent-entry.js'
+        }
+      });
+
+      compilation.compiler.run((err, stats) => {
+        if (err) {
+          done(err);
+          return;
+        }
+
+        TemplateCompiler(stats.compilation, {template: './js/dummy'}).run()
+          .then(() => {
+            Object.keys(stats.compilation.assets).should.be.eql(['parent-entry.js']);
+            done();
+          })
+          .catch(done);
+      });
+    });
+
+    describe('Compatible with the following template loaders', () => {
       it('js', (done) => {
         var compilation = createCompilation({context: fixturesPath});
-        TemplateCompiler(compilation, {template: './toUpperCase'})
+        TemplateCompiler(compilation, {template: './js/toUpperCase'})
           .run()
           .then(func => {
             func('abc').should.be.equal('ABC');
