@@ -131,7 +131,6 @@ describe('TemplateCompiler', () => {
         TemplateCompiler(compilation, {template: './twig/custom-layout.twig'})
           .run()
           .then(func => {
-            debugger;
             func().should.equal(expected);
             done();
           })
