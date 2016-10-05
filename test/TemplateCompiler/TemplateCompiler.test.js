@@ -1,13 +1,10 @@
 var path = require('path');
 var sinon = require('sinon');
-var MemoryFS = require('memory-fs');
 
 var TemplateCompiler = require('../../lib/TemplateCompiler');
 var ChildCompiler = require('../../lib/ChildCompiler');
 var InMemoryCompiler = require('../../lib/InMemoryCompiler');
 var createCompilation = require('../../lib/createCompilation');
-var createInputFS = require('../../lib/createCachedInputFileSystem');
-var compile = require('../../lib/compileVMScript');
 
 describe('TemplateCompiler', () => {
   it('should export static fields', () => {
@@ -61,19 +58,47 @@ describe('TemplateCompiler', () => {
   describe('run()', () => {
     var fixturesPath = path.resolve(__dirname, 'fixtures');
 
-    it('should work', (done) => {
-      InMemoryCompiler({context: fixturesPath})
-        .setInputFS(createInputFS())
-        .run()
-        .then(c => {
-          var compiler = TemplateCompiler(c, {template: './toUpperCase'});
-          return compiler.run();
-        })
-        .then(func => {
-          func('abc').should.be.equal('ABC');
-          done();
-        })
-        .catch(done);
+    describe('Compatible with following template loaders', () => {
+
+      it('js', (done) => {
+        var compilation = createCompilation({context: fixturesPath});
+        TemplateCompiler(compilation, {template: './toUpperCase'})
+          .run()
+          .then(func => {
+            func('abc').should.be.equal('ABC');
+            done();
+          })
+          .catch(done);
+      });
+
+      it('twig', (done) => {
+        var compilation = createCompilation({
+          context: fixturesPath,
+          module: {
+            loaders: [{
+              test: /\.twig$/,
+              loader: 'twig'
+            }]
+          }
+        });
+
+        var expected = [
+            '  header',
+            '  header2\n',
+            'content2',
+            'footer2'
+          ].join('\n');
+
+        TemplateCompiler(compilation, {template: './twig/custom-layout.twig'})
+          .run()
+          .then(func => {
+            debugger;
+            func().should.equal(expected);
+            done();
+          })
+          .catch(done);
+      });
+
     });
   });
 });
