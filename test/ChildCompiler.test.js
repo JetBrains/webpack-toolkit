@@ -3,6 +3,7 @@ var createCompilation = require('../lib/createCompilation');
 var Compiler = require('../lib/ChildCompiler');
 var InMemoryCompiler = require('../lib/InMemoryCompiler');
 var MemoryFS = require('memory-fs');
+var Promise = require('bluebird');
 
 describe('ChildCompiler', () => {
   it('should export static fields', () => {
@@ -49,15 +50,27 @@ describe('ChildCompiler', () => {
         .and.have.a.property('then').that.is.a('function');
     });
 
-    it('should reject if something wrong', () => {
-      var compiler = new Compiler(createCompilation());
-      compiler.addEntry('qwe');
-      return compiler.run().should.rejectedWith(/Entry module not found/)
+    it('should reject with error if fatal error occurs', () => {
+      // How make a fatal error?
+      // TODO
     });
 
-    it('should resolve with compilation object', () => {
+    it('should anyway resolve with compilation object even if compilation errors occurs', () => {
       var compiler = new Compiler(createCompilation());
-      return compiler.run().should.eventually.be.instanceOf(Compilation)
+      var compilerWithError = new Compiler(createCompilation());
+      compilerWithError.addEntry('qwe');
+
+      return Promise.all([
+        compiler.run()
+          .should.be.fulfilled
+          .and.eventually.be.instanceOf(Compilation)
+          .and.have.a.property('errors').that.lengthOf(0),
+
+        compilerWithError.run()
+          .should.be.fulfilled
+          .and.eventually.be.instanceOf(Compilation)
+          .and.have.a.property('errors').that.lengthOf(1)
+      ]);
     });
   });
 
