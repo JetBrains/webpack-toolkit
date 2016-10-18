@@ -24,8 +24,11 @@
   ],
   "dependencies": {
     "bluebird": "^3.4.0",
+    "enhanced-resolve": "^0.9",
     "loader-utils": "^0.2.10",
+    "memory-fs": "^0.3.0",
     "object-assign": "^4.1.0",
+    "webpack": "^1.0",
     "webpack-merge": "^0.14.1"
   },
   "devDependencies": {
@@ -35,7 +38,6 @@
     "mocha": "^3.0.2",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
-    "twig-loader": "^0.2.3",
-    "webpack": "^1.13.2"
+    "twig-loader": "^0.2.3"
   }
 }
