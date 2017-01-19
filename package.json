@@ -28,7 +28,7 @@
     "loader-utils": "^0.2.10",
     "memory-fs": "^0.3.0",
     "object-assign": "^4.1.0",
-    "webpack": "^1.0",
+    "webpack": "*",
     "webpack-merge": "^0.14.1"
   },
   "devDependencies": {
