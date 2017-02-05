@@ -44,7 +44,7 @@ describe('findMatchedLoaders()', () => {
     };
 
     find(config, 'index.css').should.eql(
-      [].concat(preLoaders, loaders, postLoaders)
+      [].concat(postLoaders, loaders, preLoaders)
     )
   });
 });
