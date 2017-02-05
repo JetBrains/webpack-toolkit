@@ -77,7 +77,12 @@ describe('ChildCompiler', () => {
   describe('addEntry()', () => {
     it('should add entries and emit it in parent compilation', (done) => {
       var fs = new MemoryFS({'entry.js': new Buffer('')});
-      var compiler = new InMemoryCompiler({context: '/'}, {inputFS: fs});
+
+      var compiler = new InMemoryCompiler({
+        context: '/',
+        entry: './entry'
+      }).setInputFS(fs);
+
       var entryName = 'qwe123';
       var parentCompilation;
 

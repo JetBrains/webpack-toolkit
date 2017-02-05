@@ -4,7 +4,6 @@ var expect = require('chai').expect;
 
 var TemplateCompiler = require('../../lib/TemplateCompiler');
 var ChildCompiler = require('../../lib/ChildCompiler');
-var InMemoryCompiler = require('../../lib/InMemoryCompiler');
 var createCompilation = require('../../lib/createCompilation');
 
 describe('TemplateCompiler', () => {
@@ -116,7 +115,7 @@ describe('TemplateCompiler', () => {
           module: {
             loaders: [{
               test: /\.twig$/,
-              loader: 'twig'
+              loader: 'twig-loader'
             }]
           }
         });
