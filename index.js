@@ -9,6 +9,7 @@ exports.getAffectedFiles = require('./lib/getAffectedFiles');
 exports.getAssetsByChunkName = require('./lib/getAssetsByChunkName');
 exports.getMatchedLoaders = require('./lib/getMatchedLoaders');
 exports.getModuleByFilepath = require('./lib/getModuleByFilepath');
+exports.getWebpackVersion = require('./lib/getWebpackVersion');
 exports.InMemoryCompiler = require('./lib/InMemoryCompiler');
 exports.interpolateName = require('./lib/interpolateName');
 exports.matcher = require('./lib/matcher');
