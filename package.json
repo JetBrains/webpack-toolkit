@@ -24,7 +24,7 @@
   ],
   "dependencies": {
     "bluebird": "^3.4.0",
-    "enhanced-resolve": "^0.9",
+    "enhanced-resolve": "*",
     "loader-utils": "^0.2.10",
     "memory-fs": "^0.3.0",
     "object-assign": "^4.1.0",
