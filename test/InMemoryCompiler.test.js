@@ -1,5 +1,4 @@
 var MemoryFS = require('memory-fs');
-var Promise = require('bluebird');
 var CachedInputFileSystem = require('enhanced-resolve/lib/CachedInputFileSystem');
 var NodeOutputFileSystem = require('webpack/lib/node/NodeOutputFileSystem');
 var Compilation = require('webpack/lib/Compilation');
@@ -62,15 +61,6 @@ describe('InMemoryCompiler', () => {
 
       var _compiler = compiler._compiler;
       _compiler.outputFileSystem.should.be.eql(outputFS);
-    });
-
-    it('should use `defaultWebpackConfig` as default Webpack config', () => {
-      var _compiler = InMemoryCompiler({entry})._compiler;
-
-      Object.keys(InMemoryCompiler.defaultWebpackConfig).forEach(key => {
-        var defaultCfgValue = InMemoryCompiler.defaultWebpackConfig[key];
-        _compiler.options[key].should.be.equal(defaultCfgValue);
-      });
     });
   });
   

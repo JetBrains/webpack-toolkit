@@ -23,19 +23,22 @@
     "README.md"
   ],
   "dependencies": {
-    "bluebird": "^3.4.0",
-    "loader-utils": "^0.2.10",
+    "loader-utils": "^1.1.0",
     "object-assign": "^4.1.0",
-    "webpack": "*",
     "webpack-merge": "^0.14.1"
   },
   "devDependencies": {
+    "bluebird": "^3.5.1",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
-    "twig-loader": "^0.2.3"
+    "twig-loader": "^0.2.3",
+    "webpack": "^3.6.0"
+  },
+  "peerDependencies": {
+    "webpack": "*"
   }
 }
