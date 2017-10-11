@@ -1,6 +1,6 @@
 {
   "name": "webpack-toolkit",
-  "version": "0.11.0",
+  "version": "1.0.0",
   "description": "A set of utils to make Webpack extensions development easier",
   "main": "index.js",
   "scripts": {
